@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node ./src/app.js",
+    "app": "node ./src/app.js",
     "send-messages": "node ./src/send_messages.js"
   },
   "dependencies": {
