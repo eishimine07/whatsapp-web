@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sample Site</title>
+  <style>
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    textarea { vertical-align: top; }
+
+    #response {
+      background-color: #CACACA;
+      border: 1px #777777;
+      font-weight: bold;
+      padding: 20px;
+    }
+  </style>
+  <script>
+    async function sendMessages() {
+      document.getElementById('response').textContent = '';
+
+      const groups = document.getElementById('groups')?.value;
+      const message = document.getElementById('message')?.value;
+
+      try {
+        const response = await fetch("send-messages", {
+          method: "POST",
+          body: JSON.stringify({ groups, message }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        
+        document.getElementById('response').textContent = JSON.stringify(await response.json());
+      } catch (e) {
+        document.getElementById('response').textContent = JSON.stringify(e.message);
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Envio de mensagens no WhatsApp</h1>
+  <form onsubmit="return false;">
+    <div class="wrapper">
+      <label for="groups">Nome dos grupos</label>
+      <textarea id="groups" rows="4" name="groups"></textarea>
+    </div>
+    <div class="wrapper">
+      <label for="message">Mensagem</label>
+      <textarea id="message" rows="6" name="message"></textarea>
+    </div>
+    <div class="wrapper">
+      <button onclick="sendMessages()">Enviar</button>
+    </div>
+  </form>
+
+  <div>
+    <h2>Resposta</h2>
+    <div id="response"></div>
+  </div>
+</body>
+</html>
