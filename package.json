@@ -1,7 +1,6 @@
 {
   "scripts": {
-    "app": "node ./src/app.js",
-    "send-messages": "node ./src/send_messages.js"
+    "app": "node ./src/app.js"
   },
   "dependencies": {
     "express": "^4.18.2",
