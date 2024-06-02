@@ -6,7 +6,7 @@ const express = require('express');
 const path = require('path');
 const whatsapp = require('./helpers/whatsapp');
 
-// Workaround - wweb 2.3*** version is not working
+// Workaround - wweb 2.23*** version is not working
 const wwebVersion = '2.2412.54';
 const whatsappClient = new Client({
     puppeteer: { headless: true },
