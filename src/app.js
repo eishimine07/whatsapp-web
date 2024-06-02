@@ -47,7 +47,7 @@ app.post('/send-messages', async (req, res) => {
     return res.status(400).json({ message: 'Campo "groups" não pode ser vazio' });
   }
 
-  if (message == null || message.trim().length === 0 || message.trim() == 'eita') {
+  if (message == null || message.trim().length === 0) {
     return res.status(400).json({ message: 'Campo "message" não pode ser vazio' });
   }
 
