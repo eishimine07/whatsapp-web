@@ -6,7 +6,7 @@ const express = require('express');
 const path = require('path');
 const whatsapp = require('./helpers/whatsapp');
 
-// Workaround - wweb 2.3*** version is not working
+// Workaround - wweb 2.23*** version is not working
 const wwebVersion = '2.2412.54';
 const whatsappClient = new Client({
     puppeteer: { headless: true },
@@ -51,7 +51,7 @@ app.post('/send-messages', async (req, res) => {
     return res.status(400).json({ message: 'Campo "groups" não pode ser vazio' });
   }
 
-  if (message == null || message.trim().length === 0 || message.trim() == 'eita') {
+  if (message == null || message.trim().length === 0) {
     return res.status(400).json({ message: 'Campo "message" não pode ser vazio' });
   }
 
