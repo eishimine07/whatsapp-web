@@ -20,6 +20,7 @@ const app = express();
 const port = 3000;
 
 whatsappClient.on('qr', qr => {
+  console.log('on QR code', qr)
     qrcode.generate(qr, {small: true});
 });
 
@@ -36,7 +37,10 @@ app.use(bodyParser.json());
 
 // Routes
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '/index.html'));
+  res.sendFile(path.join(__dirname, '/templates/index.html'));
+})
+app.get('/llama', (req, res) => {
+  res.sendFile(path.join(__dirname, '/templates/llama.html'));
 })
 
 app.post('/send-messages', async (req, res) => {

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phi3</title>
+    <style>
+            
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .auto-fit-y {
+            width: 40vw;
+            height: 20vh;
+        }
+
+        
+        #answer {
+            background-color: #CACACA;
+            border: 1px #777777;
+            font-weight: bold;
+            padding: 20px;
+        }
+
+        #loader {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+            width: 50px;
+            height: 50px;
+            background: #f4670a;
+            border-radius: 100px;
+            animation: spin 1s infinite linear;
+            visibility: hidden;
+        } 
+
+        @keyframes spin {
+            0%  {transform: rotate(0deg);}
+            100% {transform: rotate(360deg);}   
+        }
+    </style>
+
+    <script>
+        let questionInput = ''
+        async function askBot() {
+            try {
+                document.getElementById('answer-box').textContent = 'Carregando ...'
+                document.getElementById('loader').style.visibility = 'visible'
+
+                questionInput = getInput()
+                const response = await fetch('http://localhost:11434/api/generate', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        model:"phi3", 
+                        prompt: questionInput, 
+                        stream: false
+                    }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                const llamaPayload = await response.json()
+
+                document.getElementById('answer-box').textContent =  llamaPayload.response
+                document.getElementById('loader').style.visibility = 'hidden'
+            } catch (error) {
+                console.error(error)
+                document.getElementById('answer-box').textContent = JSON.stringify(error.message);
+            }
+        }
+        function getInput() {
+            const textarea = document.getElementById('question').value
+            return textarea
+        }
+
+        function clearTextArea() {
+            document.getElementById('question').textContent = ''
+        }
+    </script>
+</head>
+<body>
+    <div id="llama">
+        <div class="wrapper">
+            <h1>Pergunte ao bot!</h1>
+            <div class="wrapper auto-fit-y">
+                <label for="question">Escreva sua pergunta:</label>
+                <textarea name="question" id="question" onkeyup="getInput()" onfocus="clearTextArea()"></textarea>
+                <button id="ask" onclick="askBot()">Perguntar</button>
+            </div>
+        </div>
+
+        <div>
+            <h2>Resposta</h2>
+            <div id="answer">
+                <div id="answer-box"></div>
+                <h2 id="loader">??</h2>
+            </div>
+        </div>
+        <a href="/">Voltar</a>        
+    </div>
+   
+</body>
+</html>

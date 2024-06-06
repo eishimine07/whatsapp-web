@@ -10,7 +10,8 @@ exports.sendMessage = async function (whatsappClient, groupName, message) {
   }
 
   const chats = await whatsappClient.getChats();
-  const chat = chats.find((c) => c.isGroup && c.name.trim().toLowerCase() === groupName.trim().toLowerCase());
+  // const chat = chats.find((c) => c.isGroup && c.name.trim().toLowerCase() === groupName.trim().toLowerCase());
+  const chat = chats.find((c) => c.name.trim().toLowerCase() === groupName.trim().toLowerCase());
 
   if (!chat) {
       return 'Grupo não encontrado';

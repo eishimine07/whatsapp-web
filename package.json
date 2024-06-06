@@ -1,10 +1,14 @@
 {
   "scripts": {
-    "app": "node ./src/app.js"
+    "app": "node ./src/app.js",
+    "dev": "nodemon ./src/app.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.23.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.3"
   }
 }
