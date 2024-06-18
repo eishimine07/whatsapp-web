@@ -45,7 +45,12 @@
     </style>
 
     <script>
+        let image = ''
         let questionInput = ''
+        setTimeout(() => {
+            document.getElementById('image').addEventListener('change', changeImage)
+        }, 2000)
+
         async function askBot() {
             try {
                 document.getElementById('answer-box').textContent = 'Carregando ...'
@@ -55,13 +60,11 @@
                 const response = await fetch('http://localhost:11434/api/generate', {
                     method: "POST",
                     body: JSON.stringify({
-                        model:"phi3", 
+                        model: image ? "bakllava" : "phi3",
                         prompt: questionInput, 
-                        stream: false
+                        stream: false,
+                        images: image ? [image] : null,
                     }),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
                 })
                 const llamaPayload = await response.json()
 
@@ -77,6 +80,18 @@
             return textarea
         }
 
+        function changeImage(e) {
+            const file = e.target.files[0]
+
+            const reader = new FileReader()
+            reader.onloadend = () => {
+                image = reader.result
+                    .replace('data:', '')
+                    .replace(/^.+,/, '')
+            }
+            reader.readAsDataURL(file)
+        }
+
         function clearTextArea() {
             document.getElementById('question').textContent = ''
         }
@@ -89,6 +104,8 @@
             <div class="wrapper auto-fit-y">
                 <label for="question">Escreva sua pergunta:</label>
                 <textarea name="question" id="question" onkeyup="getInput()" onfocus="clearTextArea()"></textarea>
+                <label for="image">Imagem</label>
+                <input id="image" type="file">
                 <button id="ask" onclick="askBot()">Perguntar</button>
             </div>
         </div>
